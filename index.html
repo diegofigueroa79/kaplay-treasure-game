@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treasure Vault - Kaplay Adventure Game</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Load Kaplay: local copy first, fallback to CDN -->
+  <script src="kaplay.js"></script>
+  <script>
+    if (typeof kaplay === 'undefined') {
+      document.write('<script src="https://unpkg.com/kaplay@3001.0.12/dist/kaplay.js"><\/script>');
+    }
+  </script>
+</head>
+<body>
+  <div id="game-app">
+    <!-- Top Header & HUD -->
+    <header id="game-header">
+      <div class="header-left">
+        <h1 class="game-title">🗝️ TREASURE VAULT</h1>
+        <div class="game-subtitle">Find the hidden gold. Beware the snakes!</div>
+      </div>
+      
+      <div class="hud-center">
+        <div class="hud-stat-label">HEALTH</div>
+        <div id="hearts-container" class="hearts-row" aria-label="Player Lives">
+          <span id="heart-1" class="heart full" title="Heart 1">❤️</span>
+          <span id="heart-2" class="heart full" title="Heart 2">❤️</span>
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <div class="status-badge" id="chest-count-badge">
+          <span class="icon">📦</span>
+          <span id="opened-counter">0 / 4 Opened</span>
+        </div>
+        <button id="sound-btn" class="hud-btn" title="Toggle Sound">🔊 Sound: ON</button>
+        <button id="restart-btn" class="hud-btn restart" title="Restart Game">🔄 New Game</button>
+      </div>
+    </header>
+
+    <!-- Canvas Container -->
+    <main id="canvas-container">
+      <div id="kaplay-stage"></div>
+
+      <!-- In-Game floating notification toast -->
+      <div id="game-toast" class="toast hidden"></div>
+
+      <!-- Game Over / Victory Modal Overlay -->
+      <div id="game-modal" class="modal-backdrop hidden">
+        <div class="modal-card">
+          <div id="modal-icon" class="modal-icon">🏆</div>
+          <h2 id="modal-title" class="modal-title">VICTORY!</h2>
+          <p id="modal-desc" class="modal-desc">You found the legendary treasure!</p>
+          <div class="modal-stats" id="modal-stats"></div>
+          <button id="modal-action-btn" class="modal-btn">Play Again (Space)</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Chat Interface Section (replaces keypad) -->
+    <section id="chat-section">
+      <div class="chat-header">
+        <div class="chat-title">
+          <span class="chat-pulse"></span>
+          <span>💬 ADVENTURER CHAT</span>
+        </div>
+        <div class="chat-subtitle">Tell the explorer where to go (e.g. <code>chest number 1</code>)</div>
+      </div>
+
+      <!-- Quick Command Buttons / Suggestions -->
+      <div class="quick-commands" id="quick-commands">
+        <span class="quick-label">Quick Commands:</span>
+        <button type="button" class="quick-btn" data-cmd="chest number 1">Chest 1</button>
+        <button type="button" class="quick-btn" data-cmd="chest number 2">Chest 2</button>
+        <button type="button" class="quick-btn" data-cmd="chest number 3">Chest 3</button>
+        <button type="button" class="quick-btn" data-cmd="chest number 4">Chest 4</button>
+      </div>
+
+      <!-- Scrollable Message Log -->
+      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite">
+        <!-- Messages dynamically rendered here -->
+      </div>
+
+      <!-- Input Bar -->
+      <form id="chat-form" class="chat-input-bar">
+        <input 
+          id="chat-input" 
+          type="text" 
+          placeholder='Type "chest number 1", "chest number 2", etc...' 
+          autocomplete="off"
+          autofocus
+        />
+        <button id="chat-send-btn" type="submit" class="chat-send-btn">Send ↵</button>
+      </form>
+    </section>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
